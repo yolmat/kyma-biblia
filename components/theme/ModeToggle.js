@@ -1,26 +1,47 @@
 "use client";
 
 import { Moon, Sun } from "lucide-react";
-import { useTheme } from "next-themes";
+
 import { Button } from "@/components/ui/button";
+import { useTheme } from "@/components/theme/ThemeProvider";
 
 export default function ModeToggle() {
-    const { theme, setTheme } = useTheme();
+    const {
+        theme,
+        toggleTheme,
+        mounted,
+    } = useTheme();
 
-    const isDark = theme === "dark";
+    if (!mounted) {
+        return (
+            <Button
+                variant="ghost"
+                size="icon"
+                className="rounded-xl"
+                aria-label="Alterar tema"
+                disabled
+            >
+                <Sun className="size-4" />
+            </Button>
+        );
+    }
 
     return (
         <Button
-            variant="outline"
+            variant="ghost"
             size="icon"
             className="rounded-xl"
-            onClick={() => setTheme(isDark ? "light" : "dark")}
-            aria-label="Alternar tema"
+            onClick={toggleTheme}
+            aria-label={
+                theme === "light"
+                    ? "Ativar modo escuro"
+                    : "Ativar modo claro"
+            }
         >
-            {isDark ? (
-                <Sun className="size-4" />
-            ) : (
+            {theme === "light" ? (
                 <Moon className="size-4" />
+            ) : (
+                <Sun className="size-4" />
             )}
         </Button>
     );

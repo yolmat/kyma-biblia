@@ -1,30 +1,33 @@
-import { Card, CardContent } from "@/components/ui/card";
-import TransitionLink from "@/components/transitions/TransitionLink";
+"use client";
 
-export default function ChapterGrid({ book }) {
+import { motion } from "motion/react";
+
+import BookCard from "./BookCard";
+
+export default function BookGrid({
+    books = [],
+}) {
     return (
-        <div className="grid grid-cols-4 gap-3 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10">
-            {Array.from(
-                { length: book.chapters },
-                (_, index) => {
-                    const chapter = index + 1;
-
-                    return (
-                        <TransitionLink
-                            key={chapter}
-                            href={`/biblia/${book.slug}/${chapter}`}
-                        >
-                            <Card className="rounded-xl transition-all hover:-translate-y-0.5 hover:border-primary/50 hover:shadow-md">
-                                <CardContent className="flex aspect-square items-center justify-center p-0">
-                                    <span className="text-sm font-medium">
-                                        {chapter}
-                                    </span>
-                                </CardContent>
-                            </Card>
-                        </TransitionLink>
-                    );
-                }
-            )}
+        <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+            {books.map((book, index) => (
+                <motion.div
+                    key={book.slug}
+                    initial={{
+                        opacity: 0,
+                        y: 10,
+                    }}
+                    animate={{
+                        opacity: 1,
+                        y: 0,
+                    }}
+                    transition={{
+                        duration: 0.25,
+                        delay: index * 0.025,
+                    }}
+                >
+                    <BookCard book={book} />
+                </motion.div>
+            ))}
         </div>
     );
 }

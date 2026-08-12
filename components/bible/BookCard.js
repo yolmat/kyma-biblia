@@ -1,14 +1,21 @@
 "use client";
 
-import { motion } from "motion/react";
 import { BookOpen } from "lucide-react";
+import { motion } from "motion/react";
 
-import { Card, CardContent } from "@/components/ui/card";
 import TransitionLink from "@/components/transitions/TransitionLink";
 
-export default function BookCard({ book }) {
+export default function BookCard({
+    book,
+}) {
+    if (!book) {
+        return null;
+    }
+
     return (
-        <TransitionLink href={`/biblia/${book.slug}`}>
+        <TransitionLink
+            href={`/biblia/${book.slug}`}
+        >
             <motion.div
                 whileHover={{
                     y: -3,
@@ -21,24 +28,24 @@ export default function BookCard({ book }) {
                     duration: 0.18,
                 }}
             >
-                <Card className="group h-full cursor-pointer rounded-2xl border-border/70 bg-card shadow-sm transition-shadow hover:shadow-lg">
-                    <CardContent className="flex min-h-[150px] flex-col items-center justify-center p-5 text-center">
-                        <div className="mb-4 flex size-11 items-center justify-center rounded-xl bg-primary/10 text-primary transition-colors group-hover:bg-primary group-hover:text-primary-foreground">
-                            <BookOpen className="size-5" />
-                        </div>
+                <div className="group flex min-h-[150px] cursor-pointer flex-col items-center justify-center rounded-2xl border border-border/70 bg-card p-5 text-center shadow-sm transition-shadow hover:shadow-lg">
+                    <div className="mb-4 flex size-11 items-center justify-center rounded-xl bg-primary/10 text-primary transition-colors group-hover:bg-primary group-hover:text-primary-foreground">
+                        <BookOpen className="size-5" />
+                    </div>
 
-                        <h3 className="font-semibold tracking-tight">
-                            {book.name}
-                        </h3>
+                    <h3 className="font-semibold tracking-tight">
+                        {book.name}
+                    </h3>
 
+                    {book.chapters && (
                         <p className="mt-1 text-sm text-muted-foreground">
                             {book.chapters}{" "}
                             {book.chapters === 1
                                 ? "capítulo"
                                 : "capítulos"}
                         </p>
-                    </CardContent>
-                </Card>
+                    )}
+                </div>
             </motion.div>
         </TransitionLink>
     );

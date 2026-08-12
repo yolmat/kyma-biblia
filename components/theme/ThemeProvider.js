@@ -1,18 +1,92 @@
 "use client";
 
-import * as React from "react";
-import { ThemeProvider as NextThemesProvider } from "next-themes";
+import {
+    createContext,
+    useContext,
+    useEffect,
+    useState,
+} from "react";
 
-export function ThemeProvider({ children, ...props }) {
+const ThemeContext = createContext(null);
+
+export function ThemeProvider({ children }) {
+    const [theme, setTheme] = useState("light");
+    const [mounted, setMounted] = useState(false);
+
+    useEffect(() => {
+        const savedTheme = localStorage.getItem("theme");
+
+        const initialTheme =
+            savedTheme === "dark"
+                ? "dark"
+                : "light";
+
+        setTheme(initialTheme);
+
+        document.documentElement.classList.remove(
+            "light",
+            "dark"
+        );
+
+        document.documentElement.classList.add(
+            initialTheme
+        );
+
+        setMounted(true);
+    }, []);
+
+    useEffect(() => {
+        if (!mounted) {
+            return;
+        }
+
+        document.documentElement.classList.remove(
+            "light",
+            "dark"
+        );
+
+        document.documentElement.classList.add(
+            theme
+        );
+
+        localStorage.setItem(
+            "theme",
+            theme
+        );
+    }, [theme, mounted]);
+
+    const toggleTheme = () => {
+        setTheme((currentTheme) =>
+            currentTheme === "light"
+                ? "dark"
+                : "light"
+        );
+    };
+
     return (
-        <NextThemesProvider
-            attribute="class"
-            defaultTheme="light"
-            enableSystem={false}
-            disableTransitionOnChange
-            {...props}
+        <ThemeContext.Provider
+            value={{
+                theme,
+                setTheme,
+                toggleTheme,
+                mounted,
+            }}
         >
             {children}
-        </NextThemesProvider>
+        </ThemeContext.Provider>
     );
+}
+
+export function useTheme() {
+    const context = useContext(
+        ThemeContext
+    );
+
+    if (!context) {
+        throw new Error(
+            "useTheme deve ser utilizado dentro de ThemeProvider"
+        );
+    }
+
+    return context;
 }
