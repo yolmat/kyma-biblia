@@ -1,4 +1,4 @@
-import Link from "next/link";
+import TransitionLink from "@/components/transitions/TransitionLink";
 
 import {
     BookOpen,
@@ -47,26 +47,26 @@ export default function Sidebar() {
                         const Icon = item.icon;
 
                         return (
-                            <Link
+                            <TransitionLink
                                 key={item.href}
                                 href={item.href}
                                 className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
                             >
                                 <Icon className="size-4" />
                                 {item.label}
-                            </Link>
+                            </TransitionLink>
                         );
                     })}
                 </nav>
 
                 <div className="mt-auto">
-                    <Link
+                    <TransitionLink
                         href="/configuracoes"
                         className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
                     >
                         <Settings className="size-4" />
                         Configurações
-                    </Link>
+                    </TransitionLink>
                 </div>
             </div>
         </aside>

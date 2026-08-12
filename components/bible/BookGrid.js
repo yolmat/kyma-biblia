@@ -1,14 +1,30 @@
-import BookCard from "./BookCard";
+import { Card, CardContent } from "@/components/ui/card";
+import TransitionLink from "@/components/transitions/TransitionLink";
 
-export default function BookGrid({ books }) {
+export default function ChapterGrid({ book }) {
     return (
-        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-5">
-            {books.map((book) => (
-                <BookCard
-                    key={book.slug}
-                    book={book}
-                />
-            ))}
+        <div className="grid grid-cols-4 gap-3 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10">
+            {Array.from(
+                { length: book.chapters },
+                (_, index) => {
+                    const chapter = index + 1;
+
+                    return (
+                        <TransitionLink
+                            key={chapter}
+                            href={`/biblia/${book.slug}/${chapter}`}
+                        >
+                            <Card className="rounded-xl transition-all hover:-translate-y-0.5 hover:border-primary/50 hover:shadow-md">
+                                <CardContent className="flex aspect-square items-center justify-center p-0">
+                                    <span className="text-sm font-medium">
+                                        {chapter}
+                                    </span>
+                                </CardContent>
+                            </Card>
+                        </TransitionLink>
+                    );
+                }
+            )}
         </div>
     );
 }

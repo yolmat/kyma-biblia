@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import TransitionLink from "@/components/transitions/TransitionLink";
 import { motion } from "motion/react";
 import { ArrowRight, BookOpen } from "lucide-react";
 
@@ -29,13 +29,13 @@ export default function Hero() {
                     </p>
 
                     <div className="mt-7 flex flex-wrap gap-3">
-                        <Link
+                        <TransitionLink
                             href="/biblia"
                             className="inline-flex h-9 items-center justify-center gap-2 rounded-xl bg-primary px-4 py-2 text-sm font-medium text-primary-foreground shadow-lg shadow-primary/20 transition-all hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
                         >
                             <BookOpen className="size-4" />
                             Ler agora
-                        </Link>
+                        </TransitionLink>
 
                         <Button
                             variant="outline"
